@@ -143,6 +143,7 @@ class Boy:
             self.ball_count -= 1
             ball = Ball(self.x, self.y, self.face_dir*10)
             game_world.add_object(ball)
+            game_world.add_collision_pair('ball:zombie', ball, None)
 
     def get_bb(self):
         return self.x - 30, self.y - 40, self.x + 30, self.y + 40
@@ -150,3 +151,5 @@ class Boy:
     def handle_collision(self, group, other):
         if group == 'boy:ball':
             self.ball_count += 1
+        elif group == 'boy:zombie':
+            game_world.remove_object(self)
