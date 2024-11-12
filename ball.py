@@ -1,36 +1,28 @@
-from pico2d import load_image
+from pico2d import *
 import game_world
+import game_framework
 
-class SmallBall:
-    image = None
-
-    def __init__(self, x =  400, y = 300, velocity = 1):
-        if SmallBall.image == None:
-            SmallBall.image = load_image('ball21x21.png')
-        self.x, self.y, self.velocity = x, y, velocity
-
-    def draw(self):
-        self.image.draw(self.x, self.y)
-
-    def update(self):
-        self.x += self.velocity
-
-        if self.x < 25 or self.x > 800 - 25:
-            game_world.remove_object(self)
-
-class BigBall:
+class Ball:
     image = None
 
     def __init__(self, x = 400, y = 300, velocity = 1):
-        if BigBall.image == None:
-            BigBall.image = load_image('ball41x41.png')
+        if Ball.image == None:
+            Ball.image = load_image('ball21x21.png')
         self.x, self.y, self.velocity = x, y, velocity
 
     def draw(self):
         self.image.draw(self.x, self.y)
 
     def update(self):
-        self.x += self.velocity
+        self.x += self.velocity * 100 * game_framework.frame_time
 
-        if self.x < 25 or self.x > 800 - 25:
+        if self.x < 25 or self.x > 1600 - 25:
             game_world.remove_object(self)
+
+    def get_bb(self):
+        # fill here
+        pass
+
+    def handle_collision(self, group, other):
+        # fill here
+        pass

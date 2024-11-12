@@ -1,14 +1,17 @@
-# world[0] : 백그라운드 객체들. 맨 아래에 그려야 할 객체들
-# world[1] : 포어그라운드 객체들. 위에 그려야 할 객체들
 world = [[] for _ in range(4)]
 
-def add_object(o, depth):
+def add_object(o, depth = 0):
     world[depth].append(o)
 
-def update_world():
+def add_objects(ol, depth = 0):
+    world[depth] += ol
+
+
+def update():
     for layer in world:
         for o in layer:
             o.update()
+
 
 def render():
     for layer in world:
@@ -19,10 +22,16 @@ def remove_object(o):
     for layer in world:
         if o in layer:
             layer.remove(o)
-            return # 지우는데 성공했다면 리턴
-    
-    print('ERROR: Not Exist Object cannot remove')
+            return
+    raise ValueError('Cannot delete non existing object')
+
 
 def clear():
     for layer in world:
         layer.clear()
+
+
+
+# fill here
+def collide(a, b):
+    pass
