@@ -30,20 +30,23 @@ def init():
     boy = Boy()
     game_world.add_object(boy, 1)
 
-    # fill here
+    balls = [Ball(random.randint(100, 1500), 60, 0) for _ in range(30)]
+    game_world.add_objects(balls, 1)
 
+    game_world.add_collision_pair('boy:ball', boy, None)
+    for ball in balls:
+        game_world.add_collision_pair('boy:ball', None, ball)
 
-
+    zombies = [Zombie() for _ in range(5)]
+    game_world.add_objects(zombies, 1)
 
 def finish():
     game_world.clear()
     pass
 
-
 def update():
     game_world.update()
-    # fill here
-
+    game_world.handle_collisions()
 
 def draw():
     clear_canvas()
@@ -55,4 +58,3 @@ def pause():
 
 def resume():
     pass
-

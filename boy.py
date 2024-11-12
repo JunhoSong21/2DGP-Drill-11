@@ -21,15 +21,6 @@ ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 8
 
 
-
-
-
-
-
-
-
-
-
 class Idle:
     @staticmethod
     def enter(boy, e):
@@ -105,12 +96,8 @@ class Run:
         if space_down(e):
             boy.fire_ball()
 
-
     @staticmethod
     def do(boy):
-        # boy.frame = (boy.frame + 1) % 8
-        # boy.x += boy.dir * 5
-
         boy.frame = (boy.frame + FRAMES_PER_ACTION*ACTION_PER_TIME*game_framework.frame_time) % 8
 
         boy.x += boy.dir * RUN_SPEED_PPS * game_framework.frame_time
@@ -119,10 +106,6 @@ class Run:
     @staticmethod
     def draw(boy):
         boy.image.clip_draw(int(boy.frame) * 100, boy.action * 100, 100, 100, boy.x, boy.y)
-
-
-
-
 
 class Boy:
 
@@ -153,6 +136,7 @@ class Boy:
     def draw(self):
         self.state_machine.draw()
         self.font.draw(self.x-10, self.y + 50, f'{self.ball_count:02d}', (255, 255, 0))
+        draw_rectangle(*self.get_bb())
 
     def fire_ball(self):
         if self.ball_count > 0:
@@ -161,9 +145,8 @@ class Boy:
             game_world.add_object(ball)
 
     def get_bb(self):
-        # fill here
-        pass
+        return self.x - 30, self.y - 40, self.x + 30, self.y + 40
 
     def handle_collision(self, group, other):
-        # fill here
-        pass
+        if group == 'boy:ball':
+            self.ball_count += 1
